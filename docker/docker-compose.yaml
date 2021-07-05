@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:10.12
+    restart: always
+    hostname: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: postgres_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+      - "./dumps:/dumps"
+    networks:
+      - postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    networks:
+      - postgresql
+    environment:
+      PGADMIN_DEFAULT_EMAIL: viktorbeznosov@mail.ru
+      PGADMIN_DEFAULT_PASSWORD: admin
+
+networks:
+  postgresql:
+    driver: bridge
