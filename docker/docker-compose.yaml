@@ -31,6 +31,13 @@ services:
       PGADMIN_DEFAULT_EMAIL: viktorbeznosov@mail.ru
       PGADMIN_DEFAULT_PASSWORD: admin
 
+  redis:
+    image: redis
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379"
+
 networks:
   postgresql:
     driver: bridge

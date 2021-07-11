@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Conference;
 use App\Repository\CommentRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\ConferenceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +31,8 @@ class ConferenceController extends AbstractController
         Request $request,
         Conference $conference,
         CommentRepository $commentRepository,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        ConferenceRepository $conferenceRepository
     )
     {
         $pagination = $paginator->paginate(
@@ -42,6 +42,7 @@ class ConferenceController extends AbstractController
         );
 
         return $this->render('conference/show.html.twig', array(
+            'conferences' => $conferenceRepository->findAll(),
             'conference' => $conference,
             'comments' => $pagination
         ));
